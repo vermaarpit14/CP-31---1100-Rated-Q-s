@@ -38,21 +38,20 @@ int32_t main() {
     int t;
     cin>>t;
     while(t--){
-        int n, k;
-        cin>>n>>k;
-        vector<int> a(n), b(n);
+        int n;
+        cin>>n;
+        vector<int> a(n);
         rep(i, 0, n) cin>>a[i];
-        rep(i, 0, n) cin>>b[i];
-        vector<int> x(n);
-        x[0] = b[0];
-        rep(i, 1, n) x[i] = max(x[i-1], b[i]);
-        int ans=0, sum=0;
-        for(int i=0 ; i<n ; i++){
-            if(i == k) break;
+        int sum=a[0], mx=a[0];
+        for(int i=1 ; i<n ; i++){
+            if(sum < 0) sum = 0;
+            if(abs(a[i])%2 == abs(a[i-1])%2)
+            sum = a[i];
+            else
             sum += a[i];
-            ans = max(ans, sum + (k-i-1)*x[i]);
+            mx = max(mx, sum);
         }
-        cout<<ans<<"\n";
+        cout<<mx<<"\n";
     }
     return 0;
 }

@@ -31,6 +31,10 @@ vector<bool> sieve(int n) {
 }
 /************************************************************************************/
 
+bool cmp(const pair<int, int> &a, const pair<int, int> &b){
+    return a.first < b.first;
+}
+
 int32_t main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
@@ -38,21 +42,27 @@ int32_t main() {
     int t;
     cin>>t;
     while(t--){
-        int n, k;
-        cin>>n>>k;
-        vector<int> a(n), b(n);
+        int n, sum=0;
+        cin>>n;
+        vector<int> a(n), pre(n);
         rep(i, 0, n) cin>>a[i];
-        rep(i, 0, n) cin>>b[i];
-        vector<int> x(n);
-        x[0] = b[0];
-        rep(i, 1, n) x[i] = max(x[i-1], b[i]);
-        int ans=0, sum=0;
-        for(int i=0 ; i<n ; i++){
-            if(i == k) break;
-            sum += a[i];
-            ans = max(ans, sum + (k-i-1)*x[i]);
+        vector<pair<int, int>> b(n);
+        rep(i, 0, n) b[i] = {a[i], i};
+        sort(all(b), cmp);
+        rep(i, 0, n) {
+            sum += b[i].first;
+            pre[i] = sum;
         }
-        cout<<ans<<"\n";
+        vector<int> ans(n);
+        int last = n-1;
+        ans[b[n-1].second] = n-1;
+        for(int i=n-2 ; i>=0 ; i--){
+            if(pre[i] < b[i+1].first)
+            last = i;
+            ans[b[i].second] = last;
+        }
+        rep(i, 0, n) cout<<ans[i]<<" ";
+        cout<<"\n";
     }
     return 0;
 }
