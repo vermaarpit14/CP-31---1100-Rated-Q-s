@@ -31,11 +31,6 @@ vector<bool> sieve(int n) {
 }
 /************************************************************************************/
 
-bool f(int mid, vector<int> &h, int x){
-    int tot = 0;
-    rep(i, 0, h.size()) tot += (h[i] < mid) ? (mid-h[i]) : 0;
-    return tot<=x;
-}
 
 int32_t main() {
     ios_base::sync_with_stdio(false);
@@ -44,21 +39,23 @@ int32_t main() {
     int t;
     cin>>t;
     while(t--){
-        int n, x, ans=0;
-        cin>>n>>x;
-        vector<int> h(n);
-        rep(i, 0, n) cin>>h[i];
-        int low=1, high=1e12;
-        while(low <= high){
-            int mid = low + (high-low)/2;
-            if(f(mid, h, x)){
-                ans = mid;
-                low = mid+1;
-            } else {
-                high = mid-1;
-            }
+        int n, c;
+        cin>>n>>c;
+        vector<int> s(n);
+        rep(i, 0, n) cin>>s[i];
+        int sum=0, sq=0;
+        rep(i, 0, n){
+            sum += s[i];
+            sq += s[i]*s[i];
         }
-        cout<<ans<<"\n";
+        int A = 4*n, B = 4*sum, C = sq-c;
+        int D = B*B - 4*A*C;
+        if(D >= 0){
+            if (fmod(-B + sqrt(D), 2 * A) == 0)
+                cout<<-B + sqrt(D) / (2*A)<<"\n";
+            else
+                cout<<-B - sqrt(D) / (2*A)<<"\n";
+        }
     }
     return 0;
 }

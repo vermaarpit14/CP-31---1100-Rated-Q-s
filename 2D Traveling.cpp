@@ -31,12 +31,6 @@ vector<bool> sieve(int n) {
 }
 /************************************************************************************/
 
-bool f(int mid, vector<int> &h, int x){
-    int tot = 0;
-    rep(i, 0, h.size()) tot += (h[i] < mid) ? (mid-h[i]) : 0;
-    return tot<=x;
-}
-
 int32_t main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
@@ -44,21 +38,20 @@ int32_t main() {
     int t;
     cin>>t;
     while(t--){
-        int n, x, ans=0;
-        cin>>n>>x;
-        vector<int> h(n);
-        rep(i, 0, n) cin>>h[i];
-        int low=1, high=1e12;
-        while(low <= high){
-            int mid = low + (high-low)/2;
-            if(f(mid, h, x)){
-                ans = mid;
-                low = mid+1;
-            } else {
-                high = mid-1;
-            }
+        int n, k, a, b;
+        cin>>n>>k>>a>>b;
+        vector<pair<int, int>> pos(n);
+        rep(i, 0, n) cin>>pos[i].first>>pos[i].second;
+        pair<int, int> start = {pos[a-1].first, pos[a-1].second};
+        pair<int, int> end = {pos[b-1].first, pos[b-1].second};
+        int mn = abs(start.first - end.first) + abs(start.second - end.second);
+        int mn1=LLONG_MAX/2, mn2=LLONG_MAX/2;
+        if(k >= 2){
+            rep(i, 0, k) mn1 = min(mn1, abs(start.first - pos[i].first) + abs(start.second - pos[i].second));
+            rep(i, 0, k) mn2 = min(mn2, abs(end.first - pos[i].first) + abs(end.second - pos[i].second));
         }
-        cout<<ans<<"\n";
+        mn = min(mn, mn1+mn2);
+        cout<<mn<<"\n";
     }
     return 0;
 }
