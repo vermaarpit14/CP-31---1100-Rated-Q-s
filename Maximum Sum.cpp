@@ -31,46 +31,29 @@ vector<bool> sieve(int n) {
 }
 /************************************************************************************/
 
-int32_t main()
-{
+int32_t main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
+    //code here
     int t;
-    cin >> t;
-    while (t--)
-    {
-        int n, c;
-        cin >> n >> c;
-        vector<int> s(n);
-        int sum = 0, sq = 0;
-        rep(i, 0, n)
-        {
-            cin >> s[i];
-            sum += s[i];
-            sq += s[i] * s[i];
-        }
-        int low = 1, high = sqrt(c / (4 * n)) + 2;
-        int ans = 0;
-        while (low <= high)
-        {
-            int mid = low + (high - low) / 2;
-            int term = 4 * mid * sum;
-            int term2 = 4 * n * mid * mid;
-            if (term > c - sq - term2)
-            {
-                high = mid - 1;
-            }
-            else if (sq + term + term2 < c)
-            {
-                low = mid + 1;
-            }
-            else
-            {
-                ans = mid;
-                break;
+    cin>>t;
+    while(t--){
+        int n, k, mx=0;
+        cin>>n>>k;
+        vector<int> a(n), pre(n);
+        rep(i, 0, n) cin>>a[i];
+        sort(all(a));
+        pre[0] = a[0];
+        rep(i, 1, n) pre[i] = pre[i-1]+a[i];
+        for(int i=0 ; i<=k ; i++){
+            int j = 2*(k-i)-1;
+            if(j == -1){
+                mx = max(mx, pre[n-k-1]);
+            } else {
+                mx = max(mx, pre[n-i-1]-pre[j]);
             }
         }
-        cout << ans << "\n";
+        cout<<mx<<"\n";
     }
     return 0;
 }
