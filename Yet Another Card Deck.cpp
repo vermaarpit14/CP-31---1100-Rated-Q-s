@@ -35,30 +35,24 @@ int32_t main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     //code here
-    int t;
-    cin>>t;
-    while(t--){
-        int n;
-        cin>>n;
-        vector<int> a(n);
-        rep(i, 0, n) cin>>a[i];
-        sort(all(a));
-        int sum = 0;
-        bool ans = true;
-        if(a[0] != 1){
-            ans = false;
-        } else {
-            for (int i = 0; i < n - 1; i++)
-            {
-                sum += a[i];
-                if (a[i + 1] > sum)
-                {
-                    ans = false;
-                    break;
-                }
-            }
+    int n, q;
+    cin>>n>>q;
+    vector<int> f(51, n+1);
+    for(int i=1 ; i<=n ; i++){
+        int x; cin>>x;
+        if(f[x] == n+1){
+            f[x] = i;
         }
-        cout<<(ans ? "YES" : "NO")<<"\n";
     }
+    while(q--){
+        int t; cin>>t;
+        cout<<f[t]<<" ";
+        for(int i=0 ; i<=50 ; i++){
+            if(f[i] < f[t])
+            f[i] += 1;
+        }
+        f[t] = 1;
+    }
+    cout<<"\n";
     return 0;
 }

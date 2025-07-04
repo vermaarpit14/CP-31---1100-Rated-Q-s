@@ -31,6 +31,32 @@ vector<bool> sieve(int n) {
 }
 /************************************************************************************/
 
+bool isPalindrome(const vector<int> &arr)
+{
+    int n = arr.size();
+    for (int i = 0; i < n / 2; ++i)
+    {
+        if (arr[i] != arr[n - 1 - i])
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool checkKalindrome(const vector<int> &arr, int x)
+{
+    vector<int> temp;
+    for (int num : arr)
+    {
+        if (num != x)
+        {
+            temp.push_back(num);
+        }
+    }
+    return isPalindrome(temp);
+}
+
 int32_t main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
@@ -39,26 +65,27 @@ int32_t main() {
     cin>>t;
     while(t--){
         int n;
-        cin>>n;
+        cin >> n;
         vector<int> a(n);
-        rep(i, 0, n) cin>>a[i];
-        sort(all(a));
-        int sum = 0;
-        bool ans = true;
-        if(a[0] != 1){
-            ans = false;
-        } else {
-            for (int i = 0; i < n - 1; i++)
-            {
-                sum += a[i];
-                if (a[i + 1] > sum)
-                {
-                    ans = false;
-                    break;
-                }
-            }
+        rep(i, 0, n) cin >> a[i];
+        if (isPalindrome(a))
+        {
+            cout << "YES\n";
+            continue;
         }
-        cout<<(ans ? "YES" : "NO")<<"\n";
+        bool possible = false;
+        int left = 0, right = n - 1;
+        while (left < right)
+        {
+            if (a[left] != a[right])
+            {
+                possible = checkKalindrome(a, a[left]) || checkKalindrome(a, a[right]);
+                break;
+            }
+            left++;
+            right--;
+        }
+        cout << (possible ? "YES" : "NO") << "\n";
     }
     return 0;
 }

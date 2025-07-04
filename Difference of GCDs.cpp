@@ -38,27 +38,27 @@ int32_t main() {
     int t;
     cin>>t;
     while(t--){
-        int n;
-        cin>>n;
-        vector<int> a(n);
-        rep(i, 0, n) cin>>a[i];
-        sort(all(a));
-        int sum = 0;
+        int n, l, r;
+        cin>>n>>l>>r;
         bool ans = true;
-        if(a[0] != 1){
-            ans = false;
-        } else {
-            for (int i = 0; i < n - 1; i++)
-            {
-                sum += a[i];
-                if (a[i + 1] > sum)
-                {
-                    ans = false;
-                    break;
-                }
+        vector<int> res(n+1);
+        for(int i=1 ; i<=n ; i++){
+            if(l%i == 0)
+                res[i] = l;
+            else if((l+(i-(l%i))) <= r)
+                res[i] = l + (i - (l % i));
+            else{
+                ans = false;
+                break;
             }
         }
-        cout<<(ans ? "YES" : "NO")<<"\n";
+        if(ans){
+            cout<<"YES"<<"\n";
+            rep(i, 1, n+1) cout<<res[i]<<" ";
+            cout<<"\n";
+        } else {
+            cout<<"NO"<<"\n";
+        }
     }
     return 0;
 }

@@ -40,25 +40,26 @@ int32_t main() {
     while(t--){
         int n;
         cin>>n;
-        vector<int> a(n);
+        vector<int> a(n), l(n), r(n);
         rep(i, 0, n) cin>>a[i];
-        sort(all(a));
-        int sum = 0;
-        bool ans = true;
-        if(a[0] != 1){
-            ans = false;
-        } else {
-            for (int i = 0; i < n - 1; i++)
-            {
-                sum += a[i];
-                if (a[i + 1] > sum)
-                {
-                    ans = false;
-                    break;
-                }
+        l[0] = a[0];
+        rep(i, 1, n) l[i] = l[i-1]+a[i];
+        r[n-1] = a[n-1];
+        per(i, 0, n-1) r[i] = r[i+1]+a[i];
+        int i=0, j=n-1;
+        pair<int, int> ans = {0, 0};
+        while(i < j){
+            if(l[i] < r[j])
+            i += 1;
+            else if(l[i] > r[j])
+            j -= 1;
+            else{
+                ans = {i+1, n-j};
+                i += 1;
+                j -= 1;
             }
         }
-        cout<<(ans ? "YES" : "NO")<<"\n";
+        cout<<ans.first+ans.second<<"\n";
     }
     return 0;
 }

@@ -39,26 +39,38 @@ int32_t main() {
     cin>>t;
     while(t--){
         int n;
-        cin>>n;
+        cin >> n;
         vector<int> a(n);
-        rep(i, 0, n) cin>>a[i];
-        sort(all(a));
-        int sum = 0;
-        bool ans = true;
-        if(a[0] != 1){
-            ans = false;
-        } else {
-            for (int i = 0; i < n - 1; i++)
+        rep(i, 0, n) cin >> a[i];
+        bool ans1 = true, ans2 = true;
+        int gcd1 = 0;
+        for (int i = 0; i < n; i += 2)
+            gcd1 = __gcd(gcd1, a[i]);
+        for (int i = 1; i < n; i += 2)
+        {
+            if (a[i] % gcd1 == 0)
             {
-                sum += a[i];
-                if (a[i + 1] > sum)
-                {
-                    ans = false;
-                    break;
-                }
+                ans1 = false;
+                break;
             }
         }
-        cout<<(ans ? "YES" : "NO")<<"\n";
+        int gcd2 = 0; 
+        for (int i = 1; i < n; i += 2)
+            gcd2 = __gcd(gcd2, a[i]);
+        for (int i = 0; i < n; i += 2)
+        {
+            if (a[i] % gcd2 == 0)
+            {
+                ans2 = false;
+                break;
+            }
+        }
+        if (ans1 && gcd1 != 0)
+            cout << gcd1 << "\n";
+        else if (ans2 && gcd2 != 0)
+            cout << gcd2 << "\n";
+        else
+            cout << 0 << "\n";
     }
     return 0;
 }

@@ -42,23 +42,16 @@ int32_t main() {
         cin>>n;
         vector<int> a(n);
         rep(i, 0, n) cin>>a[i];
-        sort(all(a));
-        int sum = 0;
-        bool ans = true;
-        if(a[0] != 1){
-            ans = false;
-        } else {
-            for (int i = 0; i < n - 1; i++)
-            {
-                sum += a[i];
-                if (a[i + 1] > sum)
-                {
-                    ans = false;
-                    break;
-                }
+        int i=n-1, cnt=0;
+        while(i >= 0){
+            if(a[i] == a[n-1])
+            i -= 1;
+            else if(a[i] != a[n-1]){
+                i -= (n-i)-1;
+                cnt += 1;
             }
         }
-        cout<<(ans ? "YES" : "NO")<<"\n";
+        cout<<cnt<<"\n";
     }
     return 0;
 }

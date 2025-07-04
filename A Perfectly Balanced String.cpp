@@ -38,25 +38,19 @@ int32_t main() {
     int t;
     cin>>t;
     while(t--){
-        int n;
-        cin>>n;
-        vector<int> a(n);
-        rep(i, 0, n) cin>>a[i];
-        sort(all(a));
-        int sum = 0;
+        string s;
+        cin>>s;
+        int n = s.length(), k = 0;
+        vector<int> hash(26, 0);
+        for(int i=0 ; i<n ; i++){
+            if(hash[s[i]-'a'] == 0)
+            k += 1;
+            hash[s[i]-'a'] = 1;
+        }
         bool ans = true;
-        if(a[0] != 1){
+        for(int i=0 ; i<n ; i++){
+            if(i+k<n && s[i+k]!=s[i])
             ans = false;
-        } else {
-            for (int i = 0; i < n - 1; i++)
-            {
-                sum += a[i];
-                if (a[i + 1] > sum)
-                {
-                    ans = false;
-                    break;
-                }
-            }
         }
         cout<<(ans ? "YES" : "NO")<<"\n";
     }

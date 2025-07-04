@@ -18,11 +18,14 @@ using namespace std;
 const int INF = 1e18;
 const int MOD = 1e9 + 7;
 
-vector<bool> sieve(int n) {
+vector<bool> sieve(int n)
+{
     vector<bool> isPrime(n + 1, true);
     isPrime[0] = isPrime[1] = false;
-    for (int i = 2; i * i <= n; ++i) {
-        if (isPrime[i]) {
+    for (int i = 2; i * i <= n; ++i)
+    {
+        if (isPrime[i])
+        {
             for (int j = i * i; j <= n; j += i)
                 isPrime[j] = false;
         }
@@ -31,34 +34,24 @@ vector<bool> sieve(int n) {
 }
 /************************************************************************************/
 
-int32_t main() {
+int32_t main()
+{
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    //code here
+    // code here
     int t;
-    cin>>t;
-    while(t--){
+    cin >> t;
+    while (t--)
+    {
         int n;
-        cin>>n;
-        vector<int> a(n);
-        rep(i, 0, n) cin>>a[i];
-        sort(all(a));
-        int sum = 0;
-        bool ans = true;
-        if(a[0] != 1){
-            ans = false;
-        } else {
-            for (int i = 0; i < n - 1; i++)
-            {
-                sum += a[i];
-                if (a[i + 1] > sum)
-                {
-                    ans = false;
-                    break;
-                }
-            }
-        }
-        cout<<(ans ? "YES" : "NO")<<"\n";
+        cin >> n;
+        vector<int> a(n), pre(n);
+        rep(i, 0, n) cin >> a[i];
+        pre[0] = a[0];
+        rep(i, 1, n) pre[i] = pre[i - 1] + a[i];
+        int sum = pre[n-1], mx = 1;
+        rep(i, 0, n-1) mx = max(mx, __gcd(pre[i], sum - pre[i]));
+        cout << mx << "\n";
     }
     return 0;
 }

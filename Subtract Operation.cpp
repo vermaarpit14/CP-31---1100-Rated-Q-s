@@ -38,23 +38,24 @@ int32_t main() {
     int t;
     cin>>t;
     while(t--){
-        int n;
-        cin>>n;
+        int n, k;
+        cin>>n>>k;
         vector<int> a(n);
         rep(i, 0, n) cin>>a[i];
         sort(all(a));
-        int sum = 0;
-        bool ans = true;
-        if(a[0] != 1){
-            ans = false;
-        } else {
-            for (int i = 0; i < n - 1; i++)
-            {
-                sum += a[i];
-                if (a[i + 1] > sum)
-                {
-                    ans = false;
+        bool ans = false;
+        for(int i=n-1 ; i>=0 ; i--){
+            int x = a[i]-k;
+            int low=0, high=n-1;
+            while(low <= high){
+                int mid = low + (high-low)/2;
+                if(a[mid] == x){
+                    ans = true;
                     break;
+                } else if(a[mid] > x){
+                    high = mid-1;
+                } else {
+                    low = mid+1;
                 }
             }
         }

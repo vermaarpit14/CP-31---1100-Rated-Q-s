@@ -31,6 +31,26 @@ vector<bool> sieve(int n) {
 }
 /************************************************************************************/
 
+int inv(int a, int m)
+{
+    int m0 = m, t, q;
+    int x0 = 0, x1 = 1;
+    if (m == 1)
+        return 0;
+    while (a > 1)
+    {
+        q = a / m;
+        t = m;
+        m = a % m, a = t;
+        t = x0;
+        x0 = x1 - q * x0;
+        x1 = t;
+    }
+    if (x1 < 0)
+        x1 += m0;
+    return x1;
+}
+
 int32_t main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
@@ -39,26 +59,16 @@ int32_t main() {
     cin>>t;
     while(t--){
         int n;
-        cin>>n;
-        vector<int> a(n);
-        rep(i, 0, n) cin>>a[i];
-        sort(all(a));
-        int sum = 0;
-        bool ans = true;
-        if(a[0] != 1){
-            ans = false;
-        } else {
-            for (int i = 0; i < n - 1; i++)
-            {
-                sum += a[i];
-                if (a[i + 1] > sum)
-                {
-                    ans = false;
-                    break;
-                }
-            }
-        }
-        cout<<(ans ? "YES" : "NO")<<"\n";
+        cin >> n;
+        int a = n % MOD;
+        int b = (n + 1) % MOD;
+        int c = (4 * n - 1) % MOD;
+        int numerator = (a * b) % MOD;
+        numerator = (numerator * c) % MOD;
+        int denominator_inv = inv(6, MOD);
+        int ans = (numerator * denominator_inv) % MOD;
+        ans = (ans * 2022) % MOD;
+        cout << ans << "\n";
     }
     return 0;
 }

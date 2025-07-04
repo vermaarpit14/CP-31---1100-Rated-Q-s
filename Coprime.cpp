@@ -40,25 +40,21 @@ int32_t main() {
     while(t--){
         int n;
         cin>>n;
-        vector<int> a(n);
-        rep(i, 0, n) cin>>a[i];
-        sort(all(a));
-        int sum = 0;
-        bool ans = true;
-        if(a[0] != 1){
-            ans = false;
-        } else {
-            for (int i = 0; i < n - 1; i++)
-            {
-                sum += a[i];
-                if (a[i + 1] > sum)
-                {
-                    ans = false;
-                    break;
+        vector<int> a(n), idx(1001, -1);
+        rep(i, 0, n) {
+            cin>>a[i];
+            idx[a[i]] = i;
+        }
+        int ans = -1;
+        for(int i=1 ; i<=1000 ; i++){
+            if(idx[i] != -1){
+                for(int j=1 ; j<=1000 ; j++){
+                    if((idx[j]!=-1) && (__gcd(i, j)==1))
+                    ans = max(ans, idx[i]+idx[j]+2);
                 }
             }
         }
-        cout<<(ans ? "YES" : "NO")<<"\n";
+        cout<<ans<<"\n";
     }
     return 0;
 }

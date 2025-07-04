@@ -42,23 +42,12 @@ int32_t main() {
         cin>>n;
         vector<int> a(n);
         rep(i, 0, n) cin>>a[i];
-        sort(all(a));
-        int sum = 0;
-        bool ans = true;
-        if(a[0] != 1){
-            ans = false;
-        } else {
-            for (int i = 0; i < n - 1; i++)
-            {
-                sum += a[i];
-                if (a[i + 1] > sum)
-                {
-                    ans = false;
-                    break;
-                }
-            }
+        int ans = (1<<30)-1;
+        for(int i=0 ; i<n ; i++){
+            if(a[i] != i)
+            ans = ans&a[i];
         }
-        cout<<(ans ? "YES" : "NO")<<"\n";
+        cout<<ans<<"\n";
     }
     return 0;
 }
